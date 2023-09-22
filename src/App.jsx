@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import { NewTodo } from "./components/NewTodo";
 import { TodoList } from "./components/Todos/List";
-import MoonIcon from "./components/Icons/MoonIcon";
 import { NavbarBottom } from "./components/NavbarBottom";
+import { Header } from "./components/Header";
 
 const inicialTodos = JSON.parse(localStorage.getItem('todos')) || [
   {
@@ -29,22 +28,38 @@ const App = () => {
     localStorage.setItem('todos', JSON.stringify(todos))
   }, [todos])
   
+  const handleAddTodo = todo => {
+    const newTodos = [...todos, todo];
+    setTodos(newTodos);
+  }
+
+  const handleDeleteTodo = todo => {
+    const newTodos = todos.filter(td => td.id !== todo.id);
+    setTodos(newTodos);
+  }
+
+  const handleChangeStatus = todo => {
+    const newTodos = todos.map(td => {
+      if (td.id === todo.id) td.completed = !td.completed
+      return td
+    })
+    setTodos(newTodos)
+  }
+  
   return (
     <>
       <div className="header bg-[url('./assets/images/bg-mobile-light.jpg')] bg-no-repeat bg-contain">
-        <header className="container mx-auto px-4 pt-8 pb-4">
-          <div className="flex justify-between">
-            <h1 className="uppercase text-3xl font-semibold text-white tracking-[7px]">Todo</h1>
-            <button><MoonIcon /></button>
-          </div>
-          <NewTodo />
-        </header>
+        <Header handleAddTodo={handleAddTodo} />
         
         <main className="container mx-auto px-4">
           <div className="bg-white rounded">
-            <TodoList todos={todos} />
+            <TodoList
+              todos={todos}
+              onDeleteTodos={handleDeleteTodo}
+              onChangeStatus={handleChangeStatus}
+            />
             <section className="py-3 px-4 flex justify-between items-center text-xs text-slate-400">
-              <span>5 items restantes</span>
+              <span>{todos.length} items restantes</span>
               <button>Borrar items completados</button>
             </section>
           </div>

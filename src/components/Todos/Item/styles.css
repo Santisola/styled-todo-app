@@ -1,0 +1,21 @@
+.todoItem.completed .task {
+    text-decoration: line-through;
+    color: #666;
+}
+
+.todoItem .todoStatus {
+    transition: all 500ms ease;
+}
+
+.todoItem .noCompleted {
+    border-width: 2px;
+    background: transparent;
+}
+
+.todoItem .completed {
+    border: 0;
+    background: linear-gradient(45deg, #72ebdb, #a42fff);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
