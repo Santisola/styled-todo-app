@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { TodoList } from "./components/Todos/List";
 import { NavbarBottom } from "./components/NavbarBottom";
 import { Header } from "./components/Header";
@@ -23,7 +23,11 @@ const inicialTodos = JSON.parse(localStorage.getItem('todos')) || [
 
 const App = () => {
   const [todos, setTodos] = useState([...inicialTodos])
-  console.log('settodos', setTodos);
+
+  const unCompleted = useMemo(() => {
+    return todos.filter(td => !td.completed).length;
+  }, [todos])
+  
   useEffect(() => {
     localStorage.setItem('todos', JSON.stringify(todos))
   }, [todos])
@@ -36,6 +40,10 @@ const App = () => {
   const handleDeleteTodo = todo => {
     const newTodos = todos.filter(td => td.id !== todo.id);
     setTodos(newTodos);
+  }
+
+  const handleDeleteCompleted = () => {
+    setTodos(todos.filter(td => !td.completed));
   }
 
   const handleChangeStatus = todo => {
@@ -59,8 +67,8 @@ const App = () => {
               onChangeStatus={handleChangeStatus}
             />
             <section className="py-3 px-4 flex justify-between items-center text-xs text-slate-400">
-              <span>{todos.length} items restantes</span>
-              <button>Borrar items completados</button>
+              <span>{unCompleted} items restantes</span>
+              <button onClick={() => handleDeleteCompleted()}>Borrar items completados</button>
             </section>
           </div>
         </main>
