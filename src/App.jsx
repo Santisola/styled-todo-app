@@ -23,14 +23,32 @@ const inicialTodos = JSON.parse(localStorage.getItem('todos')) || [
 
 const App = () => {
   const [todos, setTodos] = useState([...inicialTodos])
+  // eslint-disable-next-line no-unused-vars
+  const [page, setPage] = useState ('todas')
 
   const unCompleted = useMemo(() => {
     return todos.filter(td => !td.completed).length;
   }, [todos])
+
+  const filteredTodos = useMemo(() => {
+    switch (page) {
+      case 'pendientes':
+        return todos.filter(td => !td.completed);
+      case 'completadas':
+        return todos.filter(td => td.completed);
+      default:
+        return todos
+    }
+  }, [page, todos])
   
   useEffect(() => {
     localStorage.setItem('todos', JSON.stringify(todos))
   }, [todos])
+  
+  const handleNav = (page) => {
+    //ev.preventDefault();
+    setPage(page);
+  }
   
   const handleAddTodo = todo => {
     const newTodos = [...todos, todo];
@@ -62,7 +80,7 @@ const App = () => {
         <main className="container mx-auto px-4">
           <div className="bg-white rounded">
             <TodoList
-              todos={todos}
+              todos={filteredTodos}
               onDeleteTodos={handleDeleteTodo}
               onChangeStatus={handleChangeStatus}
             />
@@ -73,7 +91,7 @@ const App = () => {
           </div>
         </main>
 
-        <NavbarBottom />
+        <NavbarBottom page={page} onNav={handleNav} />
       </div>
     </>
   )
