@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+    transition: all 150ms ease;
+}
+
 body {
     background-color: #eee;
+}
+
+.dark body {
+    background-color: #171723;
 }

@@ -29,16 +29,16 @@ export const NewTodo = ({onAddTodo}) => {
   return (
     <>
     <form
-      className="bg-white py-2 px-4 mt-7 rounded flex items-center gap-2"
+      className="bg-white dark:bg-[#25273c] py-2 px-4 mt-7 rounded flex items-center gap-2"
       onSubmit={handleSubmit}
     >
-        <span className="text-[0] block h-5 w-5 rounded-full border-2">O</span>
+        <span className="text-[0] block h-5 w-5 rounded-full border-2 dark:border-[#2f3146]">O</span>
         <input
             type="text"
             name="newTodo"
             id="newTodo"
             placeholder="Crear nueva tarea..."
-            className="block w-full outline-none text-gray-500"
+            className="block w-full outline-none text-gray-500 dark:text-[#b4b6cd] dark:bg-[#25273c]"
             value={task}
             onChange={handleChange}
         />

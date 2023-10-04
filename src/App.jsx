@@ -74,19 +74,19 @@ const App = () => {
   
   return (
     <>
-      <div className="header bg-[url('./assets/images/bg-mobile-light.jpg')] bg-no-repeat bg-contain">
+      <div className="header bg-[url('./assets/images/bg-mobile-light.jpg')] dark:bg-[url('./assets/images/bg-mobile-dark.jpg')] bg-no-repeat bg-contain">
         <Header handleAddTodo={handleAddTodo} />
         
         <main className="container mx-auto px-4">
-          <div className="bg-white rounded">
+          <div className="bg-white dark:bg-[#25273c] rounded">
             <TodoList
               todos={filteredTodos}
               onDeleteTodos={handleDeleteTodo}
               onChangeStatus={handleChangeStatus}
             />
             <section className="py-3 px-4 flex justify-between items-center text-xs text-slate-400">
-              <span>{unCompleted} items restantes</span>
-              <button onClick={() => handleDeleteCompleted()}>Borrar items completados</button>
+              <span className="dark:text-[#595a77]">{unCompleted} items restantes</span>
+              <button className="dark:text-[#595a77]" onClick={() => handleDeleteCompleted()}>Borrar items completados</button>
             </section>
           </div>
         </main>
