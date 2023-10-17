@@ -18,7 +18,7 @@ export const Header = ({ handleAddTodo }) => {
   }, [darkMode])
   
   return (
-    <header className="container mx-auto px-4 pt-8 pb-4">
+    <header className="container mx-auto px-4 pt-8 pb-4 md:max-w-xl">
         <div className="flex justify-between">
             <h1 className="uppercase text-3xl font-semibold text-white tracking-[7px]">Todo</h1>
             <button onClick={() => setDarkMode(!darkMode)}>

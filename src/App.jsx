@@ -74,10 +74,10 @@ const App = () => {
   
   return (
     <>
-      <div className="header bg-[url('./assets/images/bg-mobile-light.jpg')] dark:bg-[url('./assets/images/bg-mobile-dark.jpg')] bg-no-repeat bg-contain">
+      <div className="header bg-[url('./assets/images/bg-mobile-light.jpg')] md:bg-[url('./assets/images/bg-desktop-light.jpg')] dark:bg-[url('./assets/images/bg-mobile-dark.jpg')] md:dark:bg-[url('./assets/images/bg-desktop-dark.jpg')] bg-no-repeat bg-contain">
         <Header handleAddTodo={handleAddTodo} />
         
-        <main className="container mx-auto px-4">
+        <main className="container mx-auto px-4 md:max-w-xl">
           <div className="bg-white dark:bg-[#25273c] rounded">
             <TodoList
               todos={filteredTodos}

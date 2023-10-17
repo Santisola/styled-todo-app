@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 export const NavbarBottom = ({ page, onNav }) => {
   return (
-    <nav className="container mx-auto px-4 mt-4">
+    <nav className="container mx-auto px-4 mt-4 md:max-w-xl">
         <ul className="bg-white dark:bg-[#25273c] rounded flex justify-center items-center gap-2 p-4 text-slate-600 font-semibold">
             <li>
               <a
