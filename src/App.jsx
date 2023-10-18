@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { DragDropContext } from "@hello-pangea/dnd";
 import { TodoList } from "./components/Todos/List";
 import { NavbarBottom } from "./components/NavbarBottom";
 import { Header } from "./components/Header";
@@ -71,9 +72,22 @@ const App = () => {
     })
     setTodos(newTodos)
   }
+
+  const handleDragTodos = result => {
+    if (!result.destination) return;
+
+    const origin = result.source.index;
+    const end = result.destination.index;
+
+    const oldTodos = [...todos];
+    const [removedItem] = oldTodos.splice(origin, 1);
+    oldTodos.splice(end, 0, removedItem);
+
+    setTodos(oldTodos);
+  }
   
   return (
-    <>
+    <DragDropContext onDragEnd={handleDragTodos}>
       <div className="header bg-[url('./assets/images/bg-mobile-light.jpg')] md:bg-[url('./assets/images/bg-desktop-light.jpg')] dark:bg-[url('./assets/images/bg-mobile-dark.jpg')] md:dark:bg-[url('./assets/images/bg-desktop-dark.jpg')] bg-no-repeat bg-contain">
         <Header handleAddTodo={handleAddTodo} />
         
@@ -93,7 +107,7 @@ const App = () => {
 
         <NavbarBottom page={page} onNav={handleNav} />
       </div>
-    </>
+    </DragDropContext>
   )
 }
 
