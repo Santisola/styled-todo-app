@@ -4,23 +4,15 @@ import { TodoList } from "./components/Todos/List";
 import { NavbarBottom } from "./components/NavbarBottom";
 import { Header } from "./components/Header";
 
-const inicialTodos = JSON.parse(localStorage.getItem('todos')) || [
-  {
-    id: 1,
-    task: 'Terminar maquetado',
-    completed: false
-  },
-  {
-    id: 2,
-    task: 'Implementar localStorage',
-    completed: false
-  },
-  {
-    id: 3,
-    task: 'Agregar funcionalidades',
-    completed: false
-  }
-]
+const inicialTodos = JSON.parse(localStorage.getItem('todos')) || []
+
+const reorder = (list, startIndex, endIndex) => {
+  const oldTodos = [...list];
+  const [removedItem] = oldTodos.splice(startIndex, 1);
+  oldTodos.splice(endIndex, 0, removedItem);
+  
+  return oldTodos;
+}
 
 const App = () => {
   const [todos, setTodos] = useState([...inicialTodos])
@@ -74,30 +66,30 @@ const App = () => {
   }
 
   const handleDragTodos = result => {
-    if (!result.destination) return;
+    const {source, destination} = result
+    
+    if (!destination) return;
 
-    const origin = result.source.index;
-    const end = result.destination.index;
+    if (source.index === destination.index &&
+       source.droppableId === destination.droppableId) return
 
-    const oldTodos = [...todos];
-    const [removedItem] = oldTodos.splice(origin, 1);
-    oldTodos.splice(end, 0, removedItem);
-
-    setTodos(oldTodos);
+    setTodos((oldTodos) => reorder(oldTodos, source.index, destination.index));
   }
   
   return (
-    <DragDropContext onDragEnd={handleDragTodos}>
+    
       <div className="header bg-[url('./assets/images/bg-mobile-light.jpg')] md:bg-[url('./assets/images/bg-desktop-light.jpg')] dark:bg-[url('./assets/images/bg-mobile-dark.jpg')] md:dark:bg-[url('./assets/images/bg-desktop-dark.jpg')] bg-no-repeat bg-contain">
         <Header handleAddTodo={handleAddTodo} />
         
         <main className="container mx-auto px-4 md:max-w-xl">
           <div className="bg-white dark:bg-[#25273c] rounded">
-            <TodoList
-              todos={filteredTodos}
-              onDeleteTodos={handleDeleteTodo}
-              onChangeStatus={handleChangeStatus}
-            />
+            <DragDropContext onDragEnd={handleDragTodos}>
+              <TodoList
+                todos={filteredTodos}
+                onDeleteTodos={handleDeleteTodo}
+                onChangeStatus={handleChangeStatus}
+              />
+            </DragDropContext>
             <section className="py-3 px-4 flex justify-between items-center text-xs text-slate-400">
               <span className="dark:text-[#595a77]">{unCompleted} items restantes</span>
               <button className="dark:text-[#595a77]" onClick={() => handleDeleteCompleted()}>Borrar items completados</button>
@@ -107,7 +99,6 @@ const App = () => {
 
         <NavbarBottom page={page} onNav={handleNav} />
       </div>
-    </DragDropContext>
   )
 }
 

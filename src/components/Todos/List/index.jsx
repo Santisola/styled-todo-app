@@ -1,14 +1,14 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { Droppable, Draggable } from "@hello-pangea/dnd";
-import { Todo } from "../Item"
+import Todo from "../Item"
 
 export const TodoList = ({ todos, onDeleteTodos, onChangeStatus }) => {
   return (
     <Droppable droppableId="todosList">
       {
         droppableCtx => (
-          <ul
+          <div
             ref={droppableCtx.innerRef}
             {...droppableCtx.droppableProps}
           >
@@ -21,24 +21,21 @@ export const TodoList = ({ todos, onDeleteTodos, onChangeStatus }) => {
               >
                 {
                   draggableCtx => (
-                    <li
-                      ref={draggableCtx.innerRef}
-                      {...draggableCtx.draggableProps}
-                      {...draggableCtx.dragHandleProps}
-                    >
                       <Todo
                         todo={todo}
                         onDeleteTodos={onDeleteTodos}
                         onChangeStatus={onChangeStatus}
+                        ref={draggableCtx.innerRef}
+                        {...draggableCtx.draggableProps}
+                        {...draggableCtx.dragHandleProps}
                       />
-                    </li>
                   )
                 }
               </Draggable>
             ))
           }
           {droppableCtx.placeholder}
-          </ul>
+          </div>
         )
       }
     </Droppable>
